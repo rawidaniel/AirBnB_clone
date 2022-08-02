@@ -16,6 +16,8 @@ class BaseModel:
         """ args - postional argument --
             kwargs - named arguments -- 
             if nothing is given
+
+            TO BE DONE
         """
         self.id = str(uuid.uuid4())
         self.created_at = datetime.datetime.now()
@@ -32,9 +34,23 @@ class BaseModel:
 
     def my_number(self, number):
         self.my_number = number
+
+    def save(self):
+        """ updates the update time with now"""
+        self.updated_at = datetime.datetime.now()
+
+    def to_dict(self):
+        """It organize __str__ into a dictionary"""
+        """org_dict = dict()
+        org_dict = {k: self.dict[k] for k in self.dict}
+        org_dict["__class__"] = type(self).__name__ 
+        #org_dict[""]
+        return org_dict"""
+        my_dict = self.__dict__.copy()
+        my_dict["__class__"] = type(self).__name__
+        my_dict["created_at"] = my_dict["created_at"].isoformat()
+        my_dict["updated_at"] = my_dict["updated_at"].isoformat()
+        return my_dict
     
 
-my_model = BaseModel()
-my_model.name = "My First Model"
-my_model.my_number = 89
-print(my_model)
+
