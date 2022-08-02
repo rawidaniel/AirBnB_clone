@@ -25,23 +25,13 @@ class BaseModel:
 
 
     def __str__(self):
-        return f"[BaseModel] ({self.id}) {self.__dict__}"
+        return f"[{type(self).__name__}] ({self.id}) {self.__dict__}"
 
-    @property
-    def name(self):
-        return self._name
-
-    @name.setter
     def name(self, name):
-        self._name = name
+        self.name = name
 
-    @property
-    def my_number(self):
-        return self._my_number
-
-    @my_number.setter
     def my_number(self, number):
-        self._my_number = number
+        self.my_number = number
     
 
 my_model = BaseModel()
