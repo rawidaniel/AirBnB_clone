@@ -1,4 +1,4 @@
-0;10;1c#!/usr/bin/python3
+#!/usr/bin/python3
 
 import uuid
 import unittest
@@ -12,7 +12,6 @@ import datetime
 
 class BaseModel:
     def __init__(self, *args, **kwargs):
-        # here i will generate unique id
         """args - postional argument -- wont't be used for this project
         kwargs - named arguments -- 
         PUDOCODE
@@ -25,9 +24,9 @@ class BaseModel:
         if nothing is given
 
         TO BE DONE
-
-        for project 4 
-        if kwargs is not None and kwargs != {}:
+        """
+        
+        if kwargs != None and kwargs != {}:
             for key in kwargs:
                 if key == "created_at":
                     self.__dict__["created_at"] = datetime.strptime(
@@ -39,15 +38,9 @@ class BaseModel:
                     self.__dict__[key] = kwargs[key]
         else:
             self.id = str(uuid.uuid4())
-            self.created_at = datetime.now()
-            self.updated_at = datetime.now()
-            storage.new(self)
-
-        in progress
-        """
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.datetime.now()
-        self.updated_at = datetime.datetime.now()
+            self.created_at = datetime.datetime.now()
+            self.updated_at = datetime.datetime.now()
+            
 
     def __str__(self):
         return f"[{type(self).__name__}] ({self.id}) {self.__dict__}"
