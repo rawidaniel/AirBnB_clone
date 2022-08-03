@@ -1,69 +1,66 @@
-#!/usr/bin/python3
-
-import uuid
-import unittest
-import sys
-import os
-import re
-import datetime
-
-""" This program will declare a class called BaseModel which takes user name, number. And it will generate unique uuid to identify ... """
+#! /usr/bin/python3
+"""
+    Defines all common attributes/methods for other classes
+"""
+from uuid import uuid4
+from datetime import datetime
+import models
 
 
 class BaseModel:
+    """
+        Defines all common attributes/methods for other classes
+    """
+
     def __init__(self, *args, **kwargs):
-        """args - postional argument -- wont't be used for this project
-        kwargs - named arguments -- 
-        PUDOCODE
-        1. check for kwargs if it is not empty. if not so
-               1. inherit the old to the new user object by unpacking using **
-        2. else
-               2. create id and created at as the old one
-
- 
-        if nothing is given
-
-        TO BE DONE
         """
-        
-        if kwargs != None and kwargs != {}:
-            for key in kwargs:
-                if key == "created_at":
-                    self.__dict__["created_at"] = datetime.strptime(
-                        kwargs["created_at"], "%Y-%m-%dT%H:%M:%S.%f")
-                elif key == "updated_at":
-                    self.__dict__["updated_at"] = datetime.strptime(
-                        kwargs["updated_at"], "%Y-%m-%dT%H:%M:%S.%f")
+            Initialize new BaseModel object
+        """
+
+        self.id = str(uuid4())
+        self.created_at = self.updated_at = datetime.today()
+        t_format = "%Y-%m-%dT%H:%M:%S.%f"
+
+        if len(kwargs) != 0:
+            for k, v in kwargs.items():
+                if k == '__class__':
+                    continue
                 else:
-                    self.__dict__[key] = kwargs[key]
+                    if k == 'created_at' or k == 'updated_at':
+                        self.__dict__[k] = datetime.strptime(v, t_format)
+                    else:
+                        self.__dict__[k] = v
         else:
-            self.id = str(uuid.uuid4())
-            self.created_at = datetime.datetime.now()
-            self.updated_at = datetime.datetime.now()
-            
+            models.storage.new(self)
 
     def __str__(self):
-        return f"[{type(self).__name__}] ({self.id}) {self.__dict__}"
+        """
+            Returns the string representation of this class
+        """
 
-    def name(self, name):
-        self.name = name
-
-    def my_number(self, number):
-        self.my_number = number
+        return f'[{self.__class__.__name__}] ({self.id}) {self.__dict__}'
 
     def save(self):
-        """updates the update time with now"""
-        self.updated_at = datetime.datetime.now()
+        """
+            Updates the public instance attribute updated_at
+            with the current datetime
+        """
+
+        self.updated_at = datetime.today()
+        models.storage.save()
 
     def to_dict(self):
-        """It organize __str__ into a dictionary"""
-        """org_dict = dict()
-        org_dict = {k: self.dict[k] for k in self.dict}
-        org_dict["__class__"] = type(self).__name__ 
-        #org_dict[""]
-        return org_dict"""
-        my_dict = self.__dict__.copy()
-        my_dict["__class__"] = type(self).__name__
-        my_dict["created_at"] = my_dict["created_at"].isoformat()
-        my_dict["updated_at"] = my_dict["updated_at"].isoformat()
-        return my_dict
+        """
+            Returns a dictionary containing all keys/values
+            of __dict__ of the instance
+        """
+
+        dict_rep = {}
+        dict_rep['__class__'] = self.__class__.__name__
+        for k, v in self.__dict__.items():
+            if k == 'created_at' or k == 'updated_at':
+                dict_rep[k] = v.isoformat()
+            else:
+                dict_rep[k] = v
+
+        return dict_rep
