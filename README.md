@@ -61,7 +61,7 @@ S
 
 ## General Execution
 Your shell should work like this in interactive mode:
-```
+```bash
 $ ./console.py
 (hbnb) help
 
@@ -94,4 +94,4 @@ EOF  help  quit
 (hbnb)
 $
 ```
-
+__ALX-HOLBERTON-SCHOOL__   _Rawi&Abenezer_
