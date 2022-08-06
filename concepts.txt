@@ -1,7 +1,0 @@
-"""
-to do this project, I must know
-"""
-
-# 1 time module of python, conversion
-
-# 2 cmd command interpreter package of python
