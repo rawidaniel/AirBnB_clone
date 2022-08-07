@@ -35,6 +35,14 @@ class BaseModel:
     to_dict():
         return a dictionary containing all keys/values of
         __dict__ of the instance
+
+    Gen Info
+    ---------
+        :param **kwargs: Optionally accepts named arguments 
+        :type **kwargs: The type can be any type including datetime
+        :raise TypeError: If date formate is not convertible
+        :return: has no return 
+        :rtype: None
     """
 
     def __init__(self, *args, **kwargs):
