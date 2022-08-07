@@ -163,7 +163,7 @@ class HBNBCommand(cmd.Cmd):
     def default(self, line):
         """Accepts class name followed by arguement"""
         args = tuple(line.split("."))
-        class_argv = args[0]
+        class_arg = args[0]
         if len(args) == 1:
             print(f"*** Unknown syntax: {line}")
             return
