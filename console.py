@@ -187,14 +187,17 @@ class HBNBCommand(cmd.Cmd):
                 line = f"{class_arg} {arg_id}"
                 self.do_destroy(line)
             elif command == "update":
-                args = args[1].strip(")")
-                args = args.split(", ")
-                arg_id = args[0].strip("'")
-                arg_id = arg_id.strip('"')
-                arg_attr = args[1].strip("'")
-                arg_attr = args[1].strip('"')
-                arg_val = args[2]
-                line = f"{class_arg} {arg_id} {arg_attr} {arg_val}"
+                args = args[1].split(',')
+                id_arg = args[0].strip("'")
+                id_arg = id_arg.strip('"')
+                name_arg = args[1].strip(',')
+                val_arg = args[2]
+                name_arg = name_arg.strip(' ')
+                name_arg = name_arg.strip("'")
+                name_arg = name_arg.strip('"')
+                val_arg = val_arg.strip(' ')
+                val_arg = val_arg.strip(')')
+                line = f"{class_arg} {id_arg} {name_arg} {val_arg}"
                 self.do_update(line)
             else:
                 print(f"*** Unknown syntax: {line}")
