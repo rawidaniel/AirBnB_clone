@@ -82,10 +82,6 @@ class TestConsole(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as fake_output:
             self.typing.onecmd("create User")  # not used
             self.typing.onecmd("create User")  # just need to create instances
-        with patch('sys.stdout', new=StringIO()) as fake_output:
-            self.typing.onecmd("User.all()")
-            self.assertEqual("[[User]",
-                             fake_output.getvalue()[:7])
 
     def test_all(self):
         """Test cmd output: all"""
