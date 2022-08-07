@@ -1,109 +1,75 @@
 #!/usr/bin/python3
-"""
-Module base_model
-
-Contain class BaseModel
-
-This script serve as a base class for other class.
-
-This file can also be imported as a module and contains the following
-functions:
-
-    * save - updates the public instance attribute and call save method from
-             from filestorage
-    * to_dict - returns a dictionary containing all keys/values of __dict__ of
-              the instance
-    * __str__ - print string representation of an object
-"""
-
-import uuid
-from datetime import datetime as dt
+from datetime import datetime
+from uuid import uuid4
 import models
 
+"""
+Module BaseModel
+Parent of all classes
+"""
 
-class BaseModel:
-    """ class that represent BaseModel
 
-    Attributes
-    -----------
-    id : int
-            unique identification
-    created_at : datetime
-            date the instance created
-    updated_at : datetime
-            date the instance updated
-
-    Methods
-    -------
-    save()
-        updates the public instance attribute updated_at
-        with the current datetime
-    to_dict():
-        return a dictionary containing all keys/values of
-        __dict__ of the instance
+class BaseModel():
+    """Base class for Airbnb clone project
+    Methods:
+        __init__(self, *args, **kwargs)
+        __str__(self)
+        __save(self)
+        __repr__(self)
+        to_dict(self)
     """
 
     def __init__(self, *args, **kwargs):
-        """initialize attribute
-
-        Parameters
-        -----------
-        id : int
-                unique identification
-        created_at : datetime
-                date the instance created
-        updated_at : datetime
-                date the instance updated
+        """
+        Initialize attributes: random uuid, dates created/updated
         """
         if kwargs:
             for key, val in kwargs.items():
-                if key == "updated_at":
-                    self.updated_at = dt.strptime(val, "%Y-%m-%dT%H:%M:%S.%f")
-                elif key == "created_at":
-                    self.created_at = dt.strptime(val, "%Y-%m-%dT%H:%M:%S.%f")
-                elif key == "__class__":
+                if "created_at" == key:
+                    self.created_at = datetime.strptime(kwargs["created_at"],
+                                                        "%Y-%m-%dT%H:%M:%S.%f")
+                elif "updated_at" == key:
+                    self.updated_at = datetime.strptime(kwargs["updated_at"],
+                                                        "%Y-%m-%dT%H:%M:%S.%f")
+                elif "__class__" == key:
                     pass
                 else:
                     setattr(self, key, val)
         else:
-            self.id = str(uuid.uuid4())
-            self.created_at = dt.utcnow()
-            self.updated_at = dt.utcnow()
+            self.id = str(uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
             models.storage.new(self)
 
-    def save(self):
-        """updates the public instance attribute updated_at with the
-        current datetime
+    def __str__(self):
         """
-        self.updated_at = dt.utcnow()
+        Return string of info about model
+        """
+        return ('[{}] ({}) {}'.
+                format(self.__class__.__name__, self.id, self.__dict__))
+
+    def __repr__(self):
+        """
+        returns string representation
+        """
+        return (self.__str__())
+
+    def save(self):
+        """
+        Update instance with updated time & save to serialized file
+        """
+        self.updated_at = datetime.now()
         models.storage.save()
 
     def to_dict(self):
-        """reterive a dictionary containing all keys/values of __dict__
-        of the instance
-
-        Returns
-        -------
-        dict
-            a dictionary containing all/values of __dict__ of the instance
+        """
+        Return dic with string formats of times; add class info to dic
         """
         dic = {}
         dic["__class__"] = self.__class__.__name__
-        for key, val in self.__dict__.items():
-            if key in ["created_at", "updated_at"]:
-                dic[key] = val.isoformat()
+        for k, v in self.__dict__.items():
+            if isinstance(v, (datetime, )):
+                dic[k] = v.isoformat()
             else:
-                dic[key] = val
-        return dic
-
-    def __str__(self):
-        """reterive informal string representation of an instance
-
-        Returns
-        -------
-        str
-            string representation containing instance class, id and dictionary
-        """
-        string_rep = "[{}] ({}) {}".format(self.__class__.__name__,
-                                           self.id, self.__dict__)
-        return string_rep
+                dic[k] = v
+        return 
