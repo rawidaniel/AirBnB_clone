@@ -129,11 +129,19 @@ class HBNBCommand(cmd.Cmd):
         args = parse(line)
         if len(args) >= 4:
             key = "{}.{}".format(args[0], args[1])
-            cast = type(eval(args[3]))
-            attr_update = args[3]
+            cast = type(eval(args[-1]))
+            attr_update = args[-1]
             attr_update = attr_update.strip("'")
             attr_update = attr_update.strip('"')
-            setattr(storage.all()[key], args[2], cast(attr_update))
+            new_str = args[2:-1]
+            attr_name = ""
+            for i in range(len(new_str)):
+                if i != len(new_str) - 1:
+                    attr_name += new_str[i] + " "
+                else:
+                    attr_name += new_str[i]
+                attr_name = attr_name.replace('"', "")
+            setattr(storage.all()[key], attr_name, cast(attr_update))
             storage.all()[key].save()
         elif len(line) == 0:
             print("** class name missing **")
