@@ -278,6 +278,7 @@ $ python3 unittest -m tests/test_console.py
 
 ## Authors :black_nib:
 
-- **Rawi Daniel** <(https://github.com/Koderua)>
+- **Rawi Daniel** <[Rawi](https://github.com/rawidaniel)>
 - rawidaniel96@gmail.com
-- **Abenezer Eshetie** 
+- **Abenezer Eshetie** <[Abeni](https://github.com/EbenGitHub)>
+- abenezergoo@gmail.com
