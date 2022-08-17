@@ -168,7 +168,7 @@ class HBNBCommand(cmd.Cmd):
                      if key.startswith(args[0] + ".")]
             print(len(count))
 
-def default(self, line):
+    def default(self, line):
         """
             Handles command with no method
         """
