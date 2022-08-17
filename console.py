@@ -168,49 +168,50 @@ class HBNBCommand(cmd.Cmd):
                      if key.startswith(args[0] + ".")]
             print(len(count))
 
-    def default(self, line):
-        """Accepts class name followed by arguement"""
-        args = tuple(line.split("."))
-        class_arg = args[0]
-        if len(args) == 1:
-            print(f"*** Unknown syntax: {line}")
-            return
+def default(self, line):
+        """
+            Handles command with no method
+        """
         try:
-            args = args[1].split("(")
-            command = args[0]
-            if command == "all":
-                self.do_all(class_arg)
-            elif command == "count":
-                self.do_count(class_arg)
-            elif command == "show":
-                args = args[1].strip(")")
-                arg_id = args.strip("'")
-                arg_id = args.strip('"')
-                line = f"{class_arg} {arg_id}"
-                self.do_show(line)
-            elif command == "destroy":
-                args = args[1].strip(")")
-                arg_id = args.strip("'")
-                arg_id = args.strip('"')
-                line = f"{class_arg} {arg_id}"
-                self.do_destroy(line)
-            elif command == "update":
-                args = args[1].split(',')
-                id_arg = args[0].strip("'")
-                id_arg = id_arg.strip('"')
-                name_arg = args[1].strip(',')
-                val_arg = args[2]
-                name_arg = name_arg.strip(' ')
-                name_arg = name_arg.strip("'")
-                name_arg = name_arg.strip('"')
-                val_arg = val_arg.strip(' ')
-                val_arg = val_arg.strip(')')
-                line = f"{class_arg} {id_arg} {name_arg} {val_arg}"
-                self.do_update(line)
+            args = line.split('.')
+            cls_name = args[0]
+            commands = args[1].replace('(', '')[:-1]
+            cmd_name = commands.split('"')[0]
+
+            if cmd_name == 'all':
+                self.do_all(cls_name)
+            elif cmd_name == 'count':
+                HBNBCommand.count(cls_name)
+            elif cmd_name == 'show':
+                id = commands.split('"')[1]
+                arg = ' '.join([cls_name, id])
+                self.do_show(arg)
+            elif cmd_name == 'destroy':
+                id = commands.split('"')[1]
+                arg = ' '.join([cls_name, id])
+                self.do_destroy(arg)
+            elif cmd_name == 'update':
+                if '{' in commands:
+                    id = commands.split('"')[1]
+                    dict_d = commands.split('{')[1][:-1]
+                    value = '{' + dict_d + '}'
+                    dict_value = eval(value)
+                    for k, v in dict_value.items():
+                        if type(v) == int:
+                            v = str(v)
+                        v = '"' + v + '"'
+                        arg = ' '.join([cls_name, id, k, v])
+                        self.do_update(arg)
+                else:
+                    id = commands.split('"')[1]
+                    attr = commands.split('"')[3]
+                    value = commands.split(',')[2][1:]
+                    arg = ' '.join([cls_name, id, attr, value])
+                    self.do_update(arg)
             else:
-                print(f"*** Unknown syntax: {line}")
-        except IndexError:
-            print(f"*** Unknown syntax: {line}")
+                super().default(line)
+        except Exception:
+            super().default(line)
 
 
 def parse(line):
