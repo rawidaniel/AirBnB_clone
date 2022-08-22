@@ -9,7 +9,7 @@
 > relevant to the finished product. The highlest numbered index.html file is
 > likewise the most relevant to the finished product.
 
-![AirBnb clone](https://s3.amazonaws.com/alx-intranet.hbtn.io/uploads/medias/2021/12/f54486a431a05ea3477e337e0e953686d3c6ffd0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIARDDGGGOUSBVO6H7D%2F20220821%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220821T175330Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=d3373f030e4cb205a89e90bdb6f6fb753e729eb0e8247388b63ec37ef650c169)
+![AirBnB clone](https://s3.amazonaws.com/alx-intranet.hbtn.io/uploads/medias/2021/12/f54486a431a05ea3477e337e0e953686d3c6ffd0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIARDDGGGOUSBVO6H7D%2F20220822%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220822T042913Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=9341e8b886b11d51c6998c4a88caee6c17484105d271aa0425c88233cf4c4830)
 
 ### Environment
 
